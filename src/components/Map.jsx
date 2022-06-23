@@ -1,56 +1,62 @@
-import styled from 'styled-components'
+import styled from "styled-components";
+import {useEffect} from 'react'
 
-function MapPage() {
+function MapPage({ neededLoaded }) {
+  let Loaded = 0;
+  const LoadedLocations = [];
+  let WhileLoopDone = false;
+
+  const Locations = [
+    "Australia",
+    "Asia",
+    "Europe",
+    "Africa",
+    "North America",
+    "South America",
+  ];
+
+  useEffect(() => {
+   
+  }, [])
+
+  const LoadLocationsSelector = new Promise((resolve, reject) => {
+      while (Loaded !== neededLoaded) {
+        if (Loaded === neededLoaded) {
+          return
+        }
+
+       const LoadedLocation =
+         Locations[Math.floor(Math.random() * Locations.length)];
+       const LoadedLocationIndex = Locations.indexOf(LoadedLocation);
+      
+       Locations.splice(LoadedLocationIndex, 1);
+       Loaded++;
+       
+       LoadedLocations.push(LoadedLocation)
+
+       resolve()
+      }
+  })
+
+  LoadLocationsSelector.then(WhileLoopDone = true)
+
   return (
     <MapDiv>
       <Map src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/New-global-view.max-1100x1100.jpeg" />
-      <Group>
-        <LocationMarker location="Australia">
+    {WhileLoopDone ? LoadedLocations.map((location) => (
+        <LocationMarker location={location} key={Locations.indexOf(location)} turn={LoadedLocations.indexOf(location)}>
           <Circle>
             <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
           </Circle>
           <Triangle />
         </LocationMarker>
-        <LocationMarker location="Asia">
-          <Circle>
-            <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
-          </Circle>
-          <Triangle />
-        </LocationMarker>
-      </Group>
-      <Group>
-        <LocationMarker location="Europe">
-          <Circle>
-            <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
-          </Circle>
-          <Triangle />
-        </LocationMarker>
-        <LocationMarker location="Africa">
-          <Circle>
-            <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
-          </Circle>
-          <Triangle />
-        </LocationMarker>
-      </Group>
-      <Group>
-        <LocationMarker location="North America">
-          <Circle>
-            <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
-          </Circle>
-          <Triangle />
-        </LocationMarker>
-        <LocationMarker location="South America">
-          <Circle>
-            <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
-          </Circle>
-          <Triangle />
-        </LocationMarker>
-      </Group>
+      )) : null
+    }
     </MapDiv>
   );
 }
 
-export default MapPage
+export default MapPage;
 
 const Map = styled.img`
   width: 100vw;
@@ -72,35 +78,39 @@ const MapDiv = styled.div`
 const LocationMarker = styled.div`
   width: 100px;
   height: 100px;
-  position: relative;
-  top: ${(props) =>
-    props.location === "Australia"
-      ? "65%"
-      : props.location === "Europe"
-      ? "10%"
-      : props.location === "Africa"
-      ? "30%"
-      : props.location === "North America"
-      ? "15%"
-      : props.location === "South America"
-      ? "40%"
+  position: absolute;
+  top: ${({ location }) =>
+    location === "Australia"
+      ? "67vh"
+      : location === "Europe"
+      ? "13vh"
+      : location === "Africa"
+      ? "40vh"
+      : location === "North America"
+      ? "15vh"
+      : location === "South America"
+      ? "55vh"
+      : location === "Asia"
+      ? "13vh"
       : null};
-  left: ${(props) =>
-    props.location === "Australia"
-      ? "50%"
-      : props.location === "Europe"
-      ? "70%"
-      : props.location === "Africa"
-      ? "55%"
-      : props.location === "North America"
-      ? "50%"
-      : props.location === "South America"
-      ? "85%"
+  left: ${({ location }) =>
+    location === "Australia"
+      ? "83vw"
+      : location === "Europe"
+      ? "55vw"
+      : location === "Africa"
+      ? "50vw"
+      : location === "North America"
+      ? "16vw"
+      : location === "South America"
+      ? "28vw"
+      : location === "Asia"
+      ? "70vw"
       : null};
 
   visibility: hidden;
   animation: Down 1s forwards;
-  /* animation-delay: ${(props) => `${props.turn}s`}; */
+  animation-delay: ${(props) => `${props.turn/2}s`};
 
   @keyframes Down {
     from {
@@ -108,13 +118,9 @@ const LocationMarker = styled.div`
     }
     to {
       transform: translateY(0px);
+      visibility: visible;
     }
   }
-`;
-
-const Group = styled.div`
-  width: 100%;
-  height: 100%;
 `;
 
 const Circle = styled.div`
@@ -133,7 +139,7 @@ const Triangle = styled.div`
   width: 0;
   height: 0;
   border-left: 14px solid transparent;
-  border-right: 12px solid transparent;
+  border-right: 12.5px solid transparent;
   border-top: 25px solid blue;
   position: absolute;
   left: 4.5%;
