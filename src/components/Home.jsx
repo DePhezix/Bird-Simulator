@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 import {useState} from 'react'
+import { useDispatch } from 'react-redux'
+import { editAmount } from '../redux/counterSlice'
+import {useNavigate} from 'react-router-dom'
 
 function Home() {
   const [locations, setLocations] = useState(0)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
   const handleChange = (number) => {
     if (number >= 7) {
         return
@@ -11,7 +16,8 @@ function Home() {
     }
   }
   const handleSubmit = async () => {
-    setNumberOfLocations(locations)
+    dispatch(editAmount(locations))
+    navigate('/world')
   }
   return (
     <HomeDiv>

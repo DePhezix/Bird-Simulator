@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import {useEffect} from 'react'
+import { useMemo } from 'react'
+import { useSelector } from "react-redux";
 
-function MapPage({ neededLoaded }) {
+function MapPage() {
   let Loaded = 0;
   const LoadedLocations = [];
   let WhileLoopDone = false;
+  const count = Number(useSelector((state) => state.counter.value));
 
   const Locations = [
     "Australia",
@@ -15,42 +17,40 @@ function MapPage({ neededLoaded }) {
     "South America",
   ];
 
-  useEffect(() => {
-   
-  }, [])
-
-  const LoadLocationsSelector = new Promise((resolve, reject) => {
-      while (Loaded !== neededLoaded) {
-        if (Loaded === neededLoaded) {
-          return
-        }
-
-       const LoadedLocation =
-         Locations[Math.floor(Math.random() * Locations.length)];
-       const LoadedLocationIndex = Locations.indexOf(LoadedLocation);
-      
-       Locations.splice(LoadedLocationIndex, 1);
-       Loaded++;
-       
-       LoadedLocations.push(LoadedLocation)
-
-       resolve()
+  useMemo(() => {
+    while (Loaded !== count) {
+      if (Loaded === count) {
+        return;
       }
-  })
 
-  LoadLocationsSelector.then(WhileLoopDone = true)
+      const LoadedLocation =
+        Locations[Math.floor(Math.random() * Locations.length)];
+      const LoadedLocationIndex = Locations.indexOf(LoadedLocation);
+
+      Locations.splice(LoadedLocationIndex, 1);
+      Loaded++;
+
+      LoadedLocations.push(LoadedLocation);
+
+      WhileLoopDone = true;
+    }
+  });
 
   return (
     <MapDiv>
       <Map src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/New-global-view.max-1100x1100.jpeg" />
-    {WhileLoopDone ? LoadedLocations.map((location) => (
-        <LocationMarker location={location} key={Locations.indexOf(location)} turn={LoadedLocations.indexOf(location)}>
+      {WhileLoopDone ? LoadedLocations.map((location) => (
+        <LocationMarker
+          location={location}
+          key={Locations.indexOf(location)}
+          turn={LoadedLocations.indexOf(location)}
+        >
           <Circle>
             <EarthImage src="https://static.vecteezy.com/system/resources/previews/002/399/737/non_2x/planet-earth-icon-vector.jpg" />
           </Circle>
           <Triangle />
         </LocationMarker>
-      )) : null
+      )) : ''
     }
     </MapDiv>
   );

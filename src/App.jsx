@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import MapPage from './components/Map';
-import {Routes, Route, useNavigate, Link} from 'react-router-dom'
-import {useState} from 'react'
+import { Routes, Route } from 'react-router-dom'
 import Home from './components/Home';
 
 function App() {
@@ -9,7 +8,7 @@ function App() {
     <AppDiv>
       <Routes>
         <Route element={<Home />} path='/' />
-        <Route element={<MapPage neededLoaded={locations} />} path='/world'  />
+        <Route element={<MapPage neededLoaded={3} />} path='/world'  />
       </Routes>
     </AppDiv>
   );
