@@ -4,17 +4,32 @@ import { useSelector } from "react-redux";
 
 function MapPage() {
   let Loaded = 0;
-  const LoadedLocations = [];
   let WhileLoopDone = false;
+
+  const LoadedLocations = [];
   const count = Number(useSelector((state) => state.counter.value));
 
   const Locations = [
-    "Australia",
-    "Asia",
-    "Europe",
-    "Africa",
-    "North America",
-    "South America",
+    "l1",
+    "l2",
+    "l3",
+    "l4",
+    "l5",
+    "l6",
+    "l7",
+    "l8",
+    "l9",
+    "l10", 
+    "l11",
+    "l12",
+    "l13",
+    "l14",
+    "l15",
+    "l16",
+    "l17",
+    "l18",
+    "l19",
+    "l20",
   ];
 
   useMemo(() => {
@@ -37,8 +52,8 @@ function MapPage() {
   });
 
   return (
-    <MapDiv>
-      <Map src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/New-global-view.max-1100x1100.jpeg" />
+    <MapDiv id='parent'>
+      <Map src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/New-global-view.max-1100x1100.jpeg"/>
       {WhileLoopDone ? LoadedLocations.map((location) => (
         <LocationMarker
           location={location}
@@ -59,8 +74,8 @@ function MapPage() {
 export default MapPage;
 
 const Map = styled.img`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
   z-index: -1;
 `;
@@ -76,41 +91,86 @@ const MapDiv = styled.div`
 `;
 
 const LocationMarker = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 35px;
+  height: 58px;
   position: absolute;
   top: ${({ location }) =>
-    location === "Australia"
-      ? "67vh"
-      : location === "Europe"
-      ? "13vh"
-      : location === "Africa"
-      ? "40vh"
-      : location === "North America"
-      ? "15vh"
-      : location === "South America"
+    location === "l1"
       ? "55vh"
-      : location === "Asia"
-      ? "13vh"
+      : location === "l2" || location === "l4"
+      ? "15vh"
+      : location === "l3" || location === "l11"
+      ? "30vh"
+      : location === "l6"
+      ? "35vh"
+      : location === "l8"
+      ? "20vh"
+      : location === "l9" || location === "l19"
+      ? "25vh"
+      : location === "l10"
+      ? "1vh"
+      : location === "l12"
+      ? "50vh"
+      : location === "l13"
+      ? "12vh"
+      : location === "l14" || location === "l15" || location === "l18"
+      ? "5vh"
+      : location === "l5" ||
+        location === "l7" ||
+        location === "l16" ||
+        location === "l17"
+      ? "70vh"
+      : location === "l20"
+      ? "5vh"
       : null};
   left: ${({ location }) =>
-    location === "Australia"
-      ? "83vw"
-      : location === "Europe"
-      ? "55vw"
-      : location === "Africa"
-      ? "50vw"
-      : location === "North America"
-      ? "16vw"
-      : location === "South America"
+    location === "l1"
+      ? "30vw"
+      : location === "l4"
+      ? "15vw"
+      : location === "l5"
       ? "28vw"
-      : location === "Asia"
+      : location === "l6"
+      ? "60vw"
+      : location === "l7"
+      ? "80vw"
+      : location === "l8" || location === "l11"
       ? "70vw"
+      : location === "l9" || location === "l14"
+      ? "20vw"
+      : location === "l10"
+      ? "33vw"
+      : location === "l12"
+      ? "77vw"
+      : location === "l13"
+      ? "45vw"
+      : location === "l15"
+      ? "90vw"
+      : location === "l16"
+      ? "52vw"
+      : location === "l17"
+      ? "85vw"
+      : location === "l18"
+      ? "54vw"
+      : location === "l19"
+      ? "58vw"
+      : location === "l20"
+      ? "65vw"
       : null};
 
   visibility: hidden;
   animation: Down 1s forwards;
-  animation-delay: ${(props) => `${props.turn/2}s`};
+  animation-delay: ${(props) => `${props.turn / 2}s`};
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    div {
+      transform: translateY(-30px) rotateY(360deg);
+    }
+  }
 
   @keyframes Down {
     from {
@@ -133,17 +193,18 @@ const Circle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.5s ease-in-out;
 `;
 
 const Triangle = styled.div`
   width: 0;
   height: 0;
-  border-left: 14px solid transparent;
-  border-right: 12.5px solid transparent;
+  border-left: 13px solid transparent;
+  border-right: 13px solid transparent;
   border-top: 25px solid blue;
   position: absolute;
-  left: 4.5%;
-  top: 29%;
+  top: 70%;
+  transition: transform 0.5s ease-in-out;
 `;
 
 const EarthImage = styled.img`

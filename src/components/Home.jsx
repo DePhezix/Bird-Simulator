@@ -6,21 +6,34 @@ import {useNavigate} from 'react-router-dom'
 
 function Home() {
   const [locations, setLocations] = useState(0)
+  const [locationEquals0, setLocationsEquals0] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleChange = (number) => {
-    if (number >= 7) {
+    if (number >= 21) {
         return
     } else {
         return setLocations(number);
     }
   }
   const handleSubmit = async () => {
-    dispatch(editAmount(locations))
-    navigate('/world')
+    if (locations > 0) {
+      dispatch(editAmount(locations));
+      navigate("/world");
+    } else {
+      return setLocationsEquals0(true);
+    }
+    
   }
   return (
     <HomeDiv>
+      {locationEquals0 ? 
+      <ErrorDiv onClick={() => setLocationsEquals0(false)}>
+        <ErrorPrompt>
+          Invalid Number
+        </ErrorPrompt>
+      </ErrorDiv> : null  
+      }
       <InputDiv>
         <LocationIconDiv>
           <img src="https://cdn-icons-png.flaticon.com/512/4781/4781446.png" />
@@ -34,7 +47,7 @@ function Home() {
           <p>Locations</p>
         </LocationInputDiv>
       </InputDiv>
-      <Submit onClick={() => handleSubmit()}>Submit</Submit>
+      <Submit onClick={() => handleSubmit()}>Check For FoodSites</Submit>
     </HomeDiv>
   );
 }
@@ -51,6 +64,31 @@ const HomeDiv = styled.div`
   position: relative;
   flex-direction: column;
 `;
+
+const ErrorDiv = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(192, 192, 192, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+`;
+
+const ErrorPrompt = styled.div `
+  background: white;
+  width: 200px;
+  height: 100px;
+  transform: translateX(15px);
+  border-radius: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
 
 const LocationInput = styled.input`
   width: 280px;
@@ -111,7 +149,7 @@ const LocationIconDiv = styled.div `
 
 const Submit = styled.button `
     background: green;
-    width: 100px;
+    width: 150px;
     height: 30px;
     display: flex;
     align-items: center;
@@ -120,6 +158,7 @@ const Submit = styled.button `
     border-radius: 30px;
     color: white;
     cursor: pointer;
+    border: 1px solid black;
 `
 
 const InputDiv = styled.div `
