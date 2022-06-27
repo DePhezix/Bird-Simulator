@@ -9,38 +9,54 @@ function Home() {
   const [locationEquals0, setLocationsEquals0] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const handleChange = (number) => {
-    if (number >= 21) {
+
+  const isDecimal = (n) => {
+    var result = n - Math.floor(n) !== 0;
+    if (result) return true;
+    else return false;
+  }
+
+  const handleChange = (e) => {
+    const number = e.target.value;
+    console.log(!Number.isInteger(number))
+    if (number >= 21 || isDecimal(number)) {
         return
     } else {
         return setLocations(number);
     }
   }
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (locations > 0) {
       dispatch(editAmount(locations));
       navigate("/world");
     } else {
       return setLocationsEquals0(true);
     }
-    
   }
+
+   const handleKeypress = (e) => {
+     if (e.key === 'Enter') {
+       handleSubmit();
+     } else if (e.key === '.') {
+      return e.preventDefault()
+     }
+    };
+   
   return (
     <HomeDiv>
-      {locationEquals0 ? 
-      <ErrorDiv onClick={() => setLocationsEquals0(false)}>
-        <ErrorPrompt>
-          Invalid Number
-        </ErrorPrompt>
-      </ErrorDiv> : null  
-      }
+      {locationEquals0 ? (
+        <ErrorDiv onClick={() => setLocationsEquals0(false)}>
+          <ErrorPrompt>Invalid Number</ErrorPrompt>
+        </ErrorDiv>
+      ) : null}
       <InputDiv>
         <LocationIconDiv>
           <img src="https://cdn-icons-png.flaticon.com/512/4781/4781446.png" />
         </LocationIconDiv>
         <LocationInputDiv>
           <LocationInput
-            onChange={(e) => handleChange(e.target.value)}
+            onChange={handleChange}
+            onKeyPress={handleKeypress}
             type="number"
             value={locations}
           />
